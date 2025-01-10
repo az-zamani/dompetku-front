@@ -22,20 +22,20 @@ const handleSignIn = async () => {
       password: password.value,
     });
 
-    console.log(response); // Debug respons server
     const { access_token } = response.data;
 
     // Simpan token ke localStorage
     localStorage.setItem("token", access_token);
 
     // Redirect ke halaman dashboard
-    window.location.href = "/dashboard";
+    setTimeout(() => {
+      window.location.href = "/dashboard";
+    }, 500); // Tambahkan delay kecil untuk memastikan token disimpan
   } catch (error) {
     console.error("Login failed:", error.response?.data || error.message);
     alert("Login gagal. Silakan periksa kembali email dan password Anda.");
   }
 };
-
 
 const store = useStore();
 onBeforeMount(() => {
