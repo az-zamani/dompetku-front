@@ -11,6 +11,7 @@ const email = ref('');
 const password = ref('');
 
 const handleSignIn = async () => {
+  console.log("Login attempt with:", email.value, password.value); // Debug input data
   if (!email.value || !password.value) {
     alert("Email dan password wajib diisi!");
     return;
@@ -21,6 +22,20 @@ const handleSignIn = async () => {
       email: email.value,
       password: password.value,
     });
+
+    console.log("Login response:", response.data); // Debug respons server
+
+    const { access_token } = response.data;
+    localStorage.setItem("token", access_token);
+
+    // Redirect ke halaman dashboard
+    window.location.href = "/dashboard";
+  } catch (error) {
+    console.error("Login failed:", error.response?.data || error.message);
+    alert("Login gagal. Silakan periksa kembali email dan password Anda.");
+  }
+};
+
 
     const { access_token } = response.data;
 
@@ -79,43 +94,41 @@ onBeforeUnmount(() => {
                   <p class="mb-0">Masukkan Email dan Password anda</p>
                 </div>
                 <div class="card-body">
-                  <form role="form">
-                    <div class="mb-3">
-                      <argon-input
-                        id="email"
-                        type="email"
-                        placeholder="Email"
-                        name="email"
-                        size="lg"
-                        v-model="email"
-                      />
-                    </div>
-                    <div class="mb-3">
-                      <argon-input
-                        id="password"
-                        type="password"
-                        placeholder="Password"
-                        name="password"
-                        size="lg"
-                        v-model="password"
-                      />
-                    </div>
-                    <!-- <argon-switch id="rememberMe" name="remember-me"
-                      >Remember me</argon-switch
-                    > -->
+                  <form @submit.prevent="handleSignIn" role="form">
+                      <div class="mb-3">
+                        <argon-input
+                          id="email"
+                          type="email"
+                          placeholder="Email"
+                          name="email"
+                          size="lg"
+                          v-model="email"
+                        />
+                      </div>
+                      <div class="mb-3">
+                        <argon-input
+                          id="password"
+                          type="password"
+                          placeholder="Password"
+                          name="password"
+                          size="lg"
+                          v-model="password"
+                        />
+                      </div>
 
-                    <div class="text-center">
-                      <argon-button
-                        class="mt-4"
-                        variant="gradient"
-                        color="success"
-                        fullWidth
-                        size="lg"
-                          @click="handleSignIn"
-                        >Sign in</argon-button
-                      >
-                    </div>
-                  </form>
+                      <div class="text-center">
+                        <argon-button
+                          class="mt-4"
+                          variant="gradient"
+                          color="success"
+                          fullWidth
+                          size="lg"
+                        >
+                          Sign in
+                        </argon-button>
+                      </div>
+                    </form>
+
                 </div>
                 <div class="px-1 pt-0 text-center card-footer px-lg-2">
                   <p class="mx-auto mb-4 text-sm">
