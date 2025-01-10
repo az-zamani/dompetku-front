@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Buat instance axios dengan konfigurasi default
 const instance = axios.create({
-  baseURL: process.env.VUE_APP_API_BASE_URL || 'http://localhost:3000', // Gunakan variabel lingkungan untuk base URL
+  baseURL: process.env.VUE_APP_API_BASE_URL || 'https://dompetku-production.up.railway.app', // Gunakan variabel lingkungan untuk base URL
   timeout: 5000, // Timeout default
 });
 
