@@ -31,17 +31,22 @@ const formatDate = (dateString) => {
 
 // Grupkan transaksi berdasarkan tanggal
 const groupTransactionsByDate = () => {
-  const today = new Date().toISOString().split("T")[0];
-  const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+  const today = new Date().toLocaleDateString("id-ID");
+  const yesterday = new Date(Date.now() - 86400000).toLocaleDateString("id-ID");
 
-  const newest = transactions.value.filter((t) => new Date(t.date).toISOString().split("T")[0] === today);
-  const yesterdayGroup = transactions.value.filter((t) => new Date(t.date).toISOString().split("T")[0] === yesterday);
+  const newest = transactions.value.filter(
+    (t) => new Date(t.date).toLocaleDateString("id-ID") === today
+  );
+  const yesterdayGroup = transactions.value.filter(
+    (t) => new Date(t.date).toLocaleDateString("id-ID") === yesterday
+  );
   const older = transactions.value.filter(
-    (t) => new Date(t.date).toISOString().split("T")[0] < yesterday
+    (t) => new Date(t.date).toLocaleDateString("id-ID") < yesterday
   );
 
   return { newest, yesterday: yesterdayGroup, older };
 };
+
 
 // Fetch data saat komponen dimuat
 onMounted(() => {
