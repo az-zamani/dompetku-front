@@ -11,7 +11,6 @@ const email = ref('');
 const password = ref('');
 
 const handleSignIn = async () => {
-  console.log("Login attempt with:", email.value, password.value); // Debug input data
   if (!email.value || !password.value) {
     alert("Email dan password wajib diisi!");
     return;
@@ -23,20 +22,6 @@ const handleSignIn = async () => {
       password: password.value,
     });
 
-    console.log("Login response:", response.data); // Debug respons server
-
-    const { access_token } = response.data;
-    localStorage.setItem("token", access_token);
-
-    // Redirect ke halaman dashboard
-    window.location.href = "/dashboard";
-  } catch (error) {
-    console.error("Login failed:", error.response?.data || error.message);
-    alert("Login gagal. Silakan periksa kembali email dan password Anda.");
-  }
-};
-
-
     const { access_token } = response.data;
 
     // Simpan token ke localStorage
@@ -45,7 +30,7 @@ const handleSignIn = async () => {
     // Redirect ke halaman dashboard
     setTimeout(() => {
       window.location.href = "/dashboard";
-    }, 500); // Tambahkan delay kecil untuk memastikan token disimpan
+    }, 5000); // Tambahkan delay kecil untuk memastikan token disimpan
   } catch (error) {
     console.error("Login failed:", error.response?.data || error.message);
     alert("Login gagal. Silakan periksa kembali email dan password Anda.");
