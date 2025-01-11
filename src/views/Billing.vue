@@ -44,6 +44,22 @@ const groupTransactionsByDate = () => {
     (t) => new Date(t.date).toLocaleDateString("id-ID") < yesterday
   );
 
+  const addDefaultDate = () => {
+  transactions.value.forEach((transaction) => {
+    if (!transaction.date) {
+      console.warn(`Menambahkan tanggal default untuk transaksi dengan ID ${transaction._id}`);
+      transaction.date = new Date().toISOString();
+    }
+  });
+};
+
+onMounted(() => {
+  fetchTransactions().then(() => {
+    addDefaultDate();
+  });
+});
+
+
   return { newest, yesterday: yesterdayGroup, older };
 };
 
@@ -87,7 +103,7 @@ onMounted(() => {
             </argon-button>
             <div class="d-flex flex-column">
               <h6 class="mb-1 text-dark text-sm">{{ transaction.description || "No Description" }}</h6>
-              <span class="text-xs">{{ formatDate(transaction.date) }}</span>
+              <span class="text-xs">{{ formatDate(transaction.date) :"Tanggal tidak tersedia" }}</span>
             </div>
           </div>
           <div
